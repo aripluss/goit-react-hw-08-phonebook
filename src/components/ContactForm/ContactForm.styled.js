@@ -77,7 +77,8 @@ export const StyledFormButton = styled.button`
     transition: 1s;
   }
 
-  &:hover:before {
+  &:hover:before,
+  &:focus-visible:before {
     filter: blur(20px);
     opacity: 1;
     animation: btn-animate 8s linear infinite;

@@ -15,7 +15,8 @@ body {
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
-  background-color: rgb(255, 250, 245);
+  background-color: var(--background-color);
+  color: var(--main-text-color);
 }
 
 code {
@@ -86,10 +87,6 @@ img {
 .title {
   color: var(--accent-color);
   margin-bottom: 40px;
-}
-
-.subtitle {
-  color: var(--main-text-color);
 }
 
 .main-container {

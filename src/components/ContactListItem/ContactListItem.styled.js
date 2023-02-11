@@ -10,7 +10,8 @@ export const StyledDeleteButton = styled(StyledFormButton)`
   color: var(--red-color);
   transition: color 0.3s ease-in-out;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: var(--btn-hover-color);
   }
 `;

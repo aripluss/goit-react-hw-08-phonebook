@@ -6,7 +6,7 @@ export const ContactList = ({ contacts, deleteContact = () => {} }) => {
   return (
     <>
       {contacts.length === 0 && (
-        <StyledDiv>There is no contact in your phone book.</StyledDiv>
+        <StyledDiv>There are no contacts in your phone book.</StyledDiv>
       )}
       <StyledContactList>
         {contacts.map(contact => (

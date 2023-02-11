@@ -79,7 +79,7 @@ export default class App extends Component {
           <ContactForm onSubmit={this.saveContact} />
 
           <div className="sub-container">
-            <h2 className="subtitle">Contacts</h2>
+            <h2>Contacts</h2>
             <Filter
               value={this.state.filter}
               onFilterChange={this.handleFilter}

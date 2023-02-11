@@ -19,7 +19,9 @@ export const ContactListItem = ({
         <StyledContactName>
           {name}:{' '}
           <StyledContactNumber>
-            <a href={'tel:' + number}>{number}</a>
+            <a href={'tel:' + number.split('-').join('').split(' ').join('')}>
+              {number}
+            </a>
           </StyledContactNumber>
         </StyledContactName>
         <StyledDeleteButton type="button" onClick={() => deleteContact(id)}>
