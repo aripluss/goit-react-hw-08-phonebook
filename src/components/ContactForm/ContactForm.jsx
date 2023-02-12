@@ -31,12 +31,12 @@ export default class ContactForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const newContact = {
-      name: this.state.name,
-      number: this.state.number,
-    };
+    const { name, number } = this.state;
 
-    this.props.onSubmit(newContact);
+    this.props.onSubmit({
+      name: name.trim(),
+      number,
+    });
 
     this.reset();
   };

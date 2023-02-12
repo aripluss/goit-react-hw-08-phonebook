@@ -1,23 +1,18 @@
 import PropTypes from 'prop-types';
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
-import { StyledContactList, StyledDiv } from './ContactList.styled';
+import { StyledContactList } from './ContactList.styled';
 
 export const ContactList = ({ contacts, deleteContact = () => {} }) => {
   return (
-    <>
-      {contacts.length === 0 && (
-        <StyledDiv>There are no contacts in your phone book.</StyledDiv>
-      )}
-      <StyledContactList>
-        {contacts.map(contact => (
-          <ContactListItem
-            key={contact.id}
-            deleteContact={deleteContact}
-            {...contact}
-          />
-        ))}
-      </StyledContactList>
-    </>
+    <StyledContactList>
+      {contacts.map(contact => (
+        <ContactListItem
+          key={contact.id}
+          deleteContact={deleteContact}
+          {...contact}
+        />
+      ))}
+    </StyledContactList>
   );
 };
 

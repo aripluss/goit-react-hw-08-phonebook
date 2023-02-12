@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { StyledDiv } from './ContactList/ContactList.styled';
 
 export default class App extends Component {
   state = {
@@ -19,8 +20,8 @@ export default class App extends Component {
     if (
       this.state.contacts.some(
         existingContact =>
-          // existingContact.name.includes(newContact.name)
-          existingContact.name === newContact.name
+          // existingContact.name.toLowerCase().includes(newContact.name.toLowerCase())
+          existingContact.name.toLowerCase() === newContact.name.toLowerCase()
       )
     ) {
       alert(`${newContact.name} is already in contacts.`);
@@ -63,13 +64,14 @@ export default class App extends Component {
     });
   };
 
-  render() {
-    const filteredContacts = this.state.contacts.filter(contact =>
-      contact.name
-        .toLowerCase()
-        .trim()
-        .includes(this.state.filter.toLowerCase())
+  filterContacts = ({ contacts }) => {
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
     );
+  };
+
+  render() {
+    const filteredContacts = this.filterContacts(this.state);
 
     return (
       <div className="container">
@@ -78,18 +80,21 @@ export default class App extends Component {
         <div className="main-container">
           <ContactForm onSubmit={this.saveContact} />
 
-          <div className="sub-container">
-            <h2>Contacts</h2>
-            <Filter
-              value={this.state.filter}
-              onFilterChange={this.handleFilter}
-            />
-
-            <ContactList
-              contacts={filteredContacts}
-              deleteContact={this.deleteContact}
-            />
-          </div>
+          {this.state.contacts.length === 0 ? (
+            <StyledDiv>There are no contacts in your phone book.</StyledDiv>
+          ) : (
+            <div className="sub-container">
+              <h2>Contacts</h2>
+              <Filter
+                value={this.state.filter}
+                onFilterChange={this.handleFilter}
+              />
+              <ContactList
+                contacts={filteredContacts}
+                deleteContact={this.deleteContact}
+              />
+            </div>
+          )}
         </div>
       </div>
     );
