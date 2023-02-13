@@ -7,14 +7,25 @@ import { StyledDiv } from './ContactList/ContactList.styled';
 
 export default class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
+    // contacts: JSON.parse(localStorage.getItem('contacts')) ?? [], // without componentDidMount
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    if (contacts) {
+      this.setState({
+        contacts,
+      });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   saveContact = newContact => {
     if (
@@ -46,10 +57,6 @@ export default class App extends Component {
     this.setState(prevState => ({
       contacts: [finalContact, ...prevState.contacts],
     }));
-
-    // this.setState({
-    //   contacts: [finalContact, ...this.state.contacts],
-    // });
   };
 
   deleteContact = contactId => {
@@ -85,14 +92,22 @@ export default class App extends Component {
           ) : (
             <div className="sub-container">
               <h2>Contacts</h2>
+
               <Filter
                 value={this.state.filter}
                 onFilterChange={this.handleFilter}
               />
-              <ContactList
-                contacts={filteredContacts}
-                deleteContact={this.deleteContact}
-              />
+
+              {filteredContacts.length === 0 ? (
+                <StyledDiv>
+                  There are no matching contacts in your phone book.
+                </StyledDiv>
+              ) : (
+                <ContactList
+                  contacts={filteredContacts}
+                  deleteContact={this.deleteContact}
+                />
+              )}
             </div>
           )}
         </div>
