@@ -1,49 +1,47 @@
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { nanoid } from 'nanoid';
+import toast, { Toaster } from 'react-hot-toast';
+
+import { useLocalStorage } from 'hooks/useLocalStorage';
 import ContactForm from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+
 import { StyledDiv } from './ContactList/ContactList.styled';
 
-export default class App extends Component {
-  state = {
-    contacts: [],
-    // contacts: JSON.parse(localStorage.getItem('contacts')) ?? [], // without componentDidMount
-    filter: '',
-  };
+export default function App() {
+  // const [contacts, setContacts] = useState(() => JSON.parse(localStorage.getItem('contacts')) ?? []); // without useLocalStorage
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
+  const [filter, setFilter] = useState('');
 
-  componentDidMount() {
-    const contacts = JSON.parse(localStorage.getItem('contacts'));
-    if (contacts) {
-      this.setState({
-        contacts,
-      });
-    }
-  }
+  const firstRender = useRef(true);
 
-  componentDidUpdate(_, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
-
-  saveContact = newContact => {
-    if (
-      this.state.contacts.some(
-        existingContact =>
-          // existingContact.name.toLowerCase().includes(newContact.name.toLowerCase())
-          existingContact.name.toLowerCase() === newContact.name.toLowerCase()
-      )
-    ) {
-      alert(`${newContact.name} is already in contacts.`);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
       return;
     }
-    if (
-      this.state.contacts.some(
-        existingContact => existingContact.number === newContact.number
-      )
-    ) {
-      alert(
+
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
+  const saveContact = newContact => {
+    const repeatedContactName = contacts.some(
+      existingContact =>
+        existingContact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
+
+    const repeatedContactNumber = contacts.some(
+      existingContact => existingContact.number === newContact.number
+    );
+
+    if (repeatedContactName) {
+      toast.error(`${newContact.name} is already in contacts.`);
+      return;
+    }
+
+    if (repeatedContactNumber) {
+      toast.error(
         `There is already a contact with number ${newContact.number} in your phone book.`
       );
       return;
@@ -54,64 +52,57 @@ export default class App extends Component {
       ...newContact,
     };
 
-    this.setState(prevState => ({
-      contacts: [finalContact, ...prevState.contacts],
-    }));
+    setContacts(prevContacts => [finalContact, ...prevContacts]);
   };
 
-  deleteContact = contactId => {
-    this.setState({
-      contacts: this.state.contacts.filter(contact => contact.id !== contactId),
-    });
+  const deleteContact = contactId => {
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== contactId)
+    );
   };
 
-  handleFilter = event => {
-    this.setState({
-      filter: event.target.value,
-    });
+  const handleFilter = event => {
+    setFilter(event.target.value);
   };
 
-  filterContacts = ({ contacts }) => {
+  const filterContacts = ({ contacts }) => {
     return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+      contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
 
-  render() {
-    const filteredContacts = this.filterContacts(this.state);
+  const filteredContacts = filterContacts({ contacts, filter });
 
-    return (
-      <div className="container">
-        <h1 className="title">Phonebook</h1>
+  return (
+    <div className="container">
+      <Toaster />
 
-        <div className="main-container">
-          <ContactForm onSubmit={this.saveContact} />
+      <h1 className="title">Phonebook</h1>
 
-          {this.state.contacts.length === 0 ? (
-            <StyledDiv>There are no contacts in your phone book.</StyledDiv>
-          ) : (
-            <div className="sub-container">
-              <h2>Contacts</h2>
+      <div className="main-container">
+        <ContactForm onSubmit={saveContact} />
 
-              <Filter
-                value={this.state.filter}
-                onFilterChange={this.handleFilter}
+        {contacts.length === 0 ? (
+          <StyledDiv>There are no contacts in your phone book.</StyledDiv>
+        ) : (
+          <div className="sub-container">
+            <h2>Contacts</h2>
+
+            <Filter value={filter} onFilterChange={handleFilter} />
+
+            {filteredContacts.length === 0 ? (
+              <StyledDiv>
+                There are no matching contacts in your phone book.
+              </StyledDiv>
+            ) : (
+              <ContactList
+                contacts={filteredContacts}
+                deleteContact={deleteContact}
               />
-
-              {filteredContacts.length === 0 ? (
-                <StyledDiv>
-                  There are no matching contacts in your phone book.
-                </StyledDiv>
-              ) : (
-                <ContactList
-                  contacts={filteredContacts}
-                  deleteContact={this.deleteContact}
-                />
-              )}
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }

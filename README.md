@@ -4,4 +4,4 @@
 використовуючи методи життєвого циклу. Під час завантаження застосунку контакти,
 якщо такі є, зчитуються з локального сховища і записуються у стан.
 
-[https://aripluss.github.io/goit-react-hw-03-phonebook/](https://aripluss.github.io/goit-react-hw-03-phonebook/)
+[Жива сторінка](https://aripluss.github.io/goit-react-hw-04-phonebook/)
