@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -14,16 +14,16 @@ export default function App() {
   const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState('');
 
-  const firstRender = useRef(true);
+//   const firstRender = useRef(true);
 
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+//   useEffect(() => {
+//     if (firstRender.current) {
+//       firstRender.current = false;
+//       return;
+//     }
 
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+//     localStorage.setItem('contacts', JSON.stringify(contacts));
+//   }, [contacts]); // without useLocalStorage
 
   const saveContact = newContact => {
     const repeatedContactName = contacts.some(
