@@ -1,18 +1,23 @@
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { AiOutlineUserDelete } from 'react-icons/ai';
+
+import { deleteContact } from 'redux/contactsSlice';
+
 import {
   StyledContact,
   StyledContactName,
   StyledContactNumber,
   StyledDeleteButton,
 } from './ContactListItem.styled';
-import { AiOutlineUserDelete } from 'react-icons/ai';
 
-export const ContactListItem = ({
-  name,
-  number,
-  id,
-  deleteContact = () => {},
-}) => {
+export const ContactListItem = ({ name, number, id }) => {
+  const dispatch = useDispatch();
+
+  const deleteExistingContact = contactId => {
+    dispatch(deleteContact(contactId));
+  };
+
   return (
     <>
       <StyledContact>
@@ -24,7 +29,10 @@ export const ContactListItem = ({
             </a>
           </StyledContactNumber>
         </StyledContactName>
-        <StyledDeleteButton type="button" onClick={() => deleteContact(id)}>
+        <StyledDeleteButton
+          type="button"
+          onClick={() => deleteExistingContact(id)}
+        >
           Delete contact
           <AiOutlineUserDelete size={25} color={'var(--red-color)'} />
         </StyledDeleteButton>
@@ -34,7 +42,6 @@ export const ContactListItem = ({
 };
 
 ContactListItem.propTypes = {
-  deleteContact: PropTypes.func.isRequired,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,

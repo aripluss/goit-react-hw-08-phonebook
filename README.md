@@ -1,7 +1,16 @@
-# Застосунок Книга контактів
+# Phonebook application
 
-Зберігання, додавання та видалення контактів телефонної книги в localStorage,
-використовуючи методи життєвого циклу. Під час завантаження застосунку контакти,
-якщо такі є, зчитуються з локального сховища і записуються у стан.
+Used Redux Toolkit library for state management.
 
-[Жива сторінка](https://aripluss.github.io/goit-react-hw-06-phonebook/)
+Created store with configureStore( ).
+
+The createSlice( ) function is used.
+
+Saving / deleting a contact, as well as updating the contact filter, is
+provided.
+
+Connected React components with Redux logic using the react-redux library hooks.
+
+Used the Redux Persist library to store an array of contacts in localStorage.
+
+[Live page](https://aripluss.github.io/goit-react-hw-06-phonebook/)
