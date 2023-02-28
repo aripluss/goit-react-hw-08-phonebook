@@ -8,7 +8,6 @@ import {
   selectIsLoading,
 } from 'redux/contacts/selectors';
 import { fetchContacts } from 'redux/contacts/operations';
-import { setError } from 'redux/contacts/contactsSlice';
 import ContactForm from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
@@ -29,34 +28,31 @@ export default function App() {
 
   useEffect(() => {
     if (error) toast.error(error);
-    dispatch(setError(null));
   }, [dispatch, error]);
 
   return (
     <>
       {isLoading && <Loader />}
 
-      {!isLoading && (
-        <div className="container">
-          <h1 className="title">Phonebook</h1>
+      <div className="container">
+        <h1 className="title">Phonebook</h1>
 
-          <div className="main-container">
-            <ContactForm />
+        <div className="main-container">
+          <ContactForm />
 
-            {!contacts.length ? (
-              <StyledDiv>There are no contacts in your phone book.</StyledDiv>
-            ) : (
-              <div className="sub-container">
-                <h2>Contacts</h2>
+          {!contacts.length ? (
+            <StyledDiv>There are no contacts in your phone book.</StyledDiv>
+          ) : (
+            <div className="sub-container">
+              <h2>Contacts</h2>
 
-                <Filter />
+              <Filter />
 
-                <ContactList />
-              </div>
-            )}
-          </div>
+              <ContactList />
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       <Toaster />
     </>

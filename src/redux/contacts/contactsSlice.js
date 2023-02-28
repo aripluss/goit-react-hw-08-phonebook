@@ -13,18 +13,13 @@ const contactsInitialState = {
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contactsInitialState,
-  reducers: {
-    setError(state, action) {
-      state.contacts.error = action.payload;
-    },
-  },
   extraReducers: builder =>
     builder
-      // ----- App -----
+      // ----------- App -----------
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contacts.items = action.payload;
       })
-      // ----- ContactForm -----
+      // ------- ContactForm -------
       .addCase(saveContact.fulfilled, (state, action) => {
         state.contacts.items = [action.payload, ...state.contacts.items];
       })
@@ -63,5 +58,4 @@ const handleFulfilled = state => {
   state.contacts.isLoading = false;
 };
 
-export const { setError } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

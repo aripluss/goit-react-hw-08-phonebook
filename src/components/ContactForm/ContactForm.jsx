@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast, Toaster } from 'react-hot-toast';
 
 import { selectContacts } from 'redux/contacts/selectors';
 import { saveContact } from 'redux/contacts/operations';
-import { setError } from 'redux/contacts/contactsSlice';
 
 import {
   StyledForm,
@@ -64,15 +64,13 @@ export default function ContactForm() {
     );
 
     if (repeatedContactName) {
-      dispatch(setError(`${newContact.name} is already in contacts.`));
+      toast.error(`${newContact.name} is already in contacts.`);
       return;
     }
 
     if (repeatedContactNumber) {
-      dispatch(
-        setError(
-          `There is already a contact with number ${newContact.number} in your phone book.`
-        )
+      toast.error(
+        `There is already a contact with number ${newContact.number} in your phone book.`
       );
       return;
     }
@@ -115,6 +113,8 @@ export default function ContactForm() {
           Add contact
         </StyledFormButton>
       </StyledForm>
+
+      <Toaster />
     </div>
   );
 }
