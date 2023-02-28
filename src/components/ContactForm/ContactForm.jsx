@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectContacts } from 'redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+import { selectContacts } from 'redux/contacts/selectors';
+import { saveContact } from 'redux/contacts/operations';
+import { setError } from 'redux/contacts/contactsSlice';
 
 import {
   StyledForm,
@@ -14,6 +14,7 @@ import {
 
 export default function ContactForm() {
   const contacts = useSelector(selectContacts);
+
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -44,7 +45,7 @@ export default function ContactForm() {
   const handleSubmit = event => {
     event.preventDefault();
 
-    saveContact({
+    addNewContact({
       name: name.trim(),
       number,
     });
@@ -52,7 +53,7 @@ export default function ContactForm() {
     reset();
   };
 
-  const saveContact = newContact => {
+  const addNewContact = newContact => {
     const repeatedContactName = contacts.some(
       existingContact =>
         existingContact.name.toLowerCase() === newContact.name.toLowerCase()
@@ -63,27 +64,20 @@ export default function ContactForm() {
     );
 
     if (repeatedContactName) {
-      toast.error(`${newContact.name} is already in contacts.`);
+      dispatch(setError(`${newContact.name} is already in contacts.`));
       return;
     }
 
     if (repeatedContactNumber) {
-      toast.error(
-        `There is already a contact with number ${newContact.number} in your phone book.`
+      dispatch(
+        setError(
+          `There is already a contact with number ${newContact.number} in your phone book.`
+        )
       );
       return;
     }
 
-    dispatch(addContact(newContact));
-    // dispatch({ type: 'contacts/addContact', payload: [{}, {}, ..., {}] });
-
-    // ActionCreator -> addContact;
-    // Action -> { type: 'contacts/addContact', payload: [{}, {}, ..., {}] };
-
-    // Self-written ActionCreator -> const addContact = payload => ({
-    //   type: 'contacts/addContact',
-    //   payload: payload,
-    // });
+    dispatch(saveContact(newContact));
   };
 
   return (
@@ -121,8 +115,6 @@ export default function ContactForm() {
           Add contact
         </StyledFormButton>
       </StyledForm>
-
-      <Toaster />
     </div>
   );
 }

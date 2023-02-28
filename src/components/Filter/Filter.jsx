@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectFilter } from 'redux/selectors';
-import { setFilter } from 'redux/contactsSlice';
+import { selectFilter } from 'redux/filter/selectors';
+import { setFilter } from 'redux/filter/filterSlice';
 
 import { StyledLabel, StyledInput } from '../ContactForm/ContactForm.styled';
 
 export const Filter = () => {
   const filter = useSelector(selectFilter);
+
   const dispatch = useDispatch();
 
   const handleFilter = event => {
     dispatch(setFilter(event.target.value));
-    // dispatch({ type: 'contacts/setFilter', payload: '...' });
   };
 
   return (

@@ -1,49 +1,64 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast, Toaster } from 'react-hot-toast';
 
-import { selectContacts, selectFilter } from 'redux/selectors';
+import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+} from 'redux/contacts/selectors';
+import { fetchContacts } from 'redux/contacts/operations';
+import { setError } from 'redux/contacts/contactsSlice';
 import ContactForm from './ContactForm/ContactForm';
-import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
+import { Loader } from './Loader/Loader';
 
 import { StyledDiv } from './ContactList/ContactList.styled';
 
 export default function App() {
   const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
-  const filterContacts = ({ contacts }) => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
+  const dispatch = useDispatch();
 
-  const filteredContacts = filterContacts({ contacts, filter });
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (error) toast.error(error);
+    dispatch(setError(null));
+  }, [dispatch, error]);
 
   return (
-    <div className="container">
-      <h1 className="title">Phonebook</h1>
+    <>
+      {isLoading && <Loader />}
 
-      <div className="main-container">
-        <ContactForm />
+      {!isLoading && (
+        <div className="container">
+          <h1 className="title">Phonebook</h1>
 
-        {contacts.length === 0 ? (
-          <StyledDiv>There are no contacts in your phone book.</StyledDiv>
-        ) : (
-          <div className="sub-container">
-            <h2>Contacts</h2>
+          <div className="main-container">
+            <ContactForm />
 
-            <Filter />
-
-            {filteredContacts.length === 0 ? (
-              <StyledDiv>
-                There are no matching contacts in your phone book.
-              </StyledDiv>
+            {!contacts.length ? (
+              <StyledDiv>There are no contacts in your phone book.</StyledDiv>
             ) : (
-              <ContactList contacts={filteredContacts} />
+              <div className="sub-container">
+                <h2>Contacts</h2>
+
+                <Filter />
+
+                <ContactList />
+              </div>
             )}
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+
+      <Toaster />
+    </>
   );
 }

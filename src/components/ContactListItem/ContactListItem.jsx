@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 
-import { deleteContact } from 'redux/contactsSlice';
+import { removeContact } from 'redux/contacts/operations';
 
 import {
   StyledContact,
@@ -15,7 +15,7 @@ export const ContactListItem = ({ name, number, id }) => {
   const dispatch = useDispatch();
 
   const deleteExistingContact = contactId => {
-    dispatch(deleteContact(contactId));
+    dispatch(removeContact(contactId));
   };
 
   return (

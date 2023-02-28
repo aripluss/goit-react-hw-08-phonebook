@@ -1,25 +1,25 @@
-import PropTypes from 'prop-types';
-
+import { useSelector } from 'react-redux';
+import { selectVisibleContacts } from 'redux/contacts/selectors';
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 
-import { StyledContactList } from './ContactList.styled';
+import { StyledContactList, StyledDiv } from './ContactList.styled';
 
-export const ContactList = ({ contacts }) => {
+export const ContactList = () => {
+  const visibleContacts = useSelector(selectVisibleContacts);
+
   return (
-    <StyledContactList>
-      {contacts.map(contact => (
-        <ContactListItem key={contact.id} {...contact} />
-      ))}
-    </StyledContactList>
+    <>
+      {visibleContacts.length === 0 ? (
+        <StyledDiv>
+          There are no matching contacts in your phone book.
+        </StyledDiv>
+      ) : (
+        <StyledContactList>
+          {visibleContacts.map(contact => (
+            <ContactListItem key={contact.id} {...contact} />
+          ))}
+        </StyledContactList>
+      )}
+    </>
   );
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 };
