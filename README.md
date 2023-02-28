@@ -17,4 +17,4 @@ execute HTTP requests.
 Processing actions and changing data in the Redux state was done using the
 createSlice() function.
 
-[Live page](https://aripluss.github.io/goit-react-hw-07-phonebook/)
+[Live page](https://aripluss.github.io/goit-react-hw-08-phonebook/)
