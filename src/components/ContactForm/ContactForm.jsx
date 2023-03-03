@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast, Toaster } from 'react-hot-toast';
 
-import { selectContacts } from 'redux/contacts/selectors';
-import { saveContact } from 'redux/contacts/operations';
+import { selectContacts, selectIsLoading } from 'redux/contacts/selectors';
+import { saveContactRequest } from 'redux/contacts/operations';
+import { Loader } from 'components/Loader/Loader';
 
 import {
-  StyledForm,
-  StyledLabel,
-  StyledInput,
-  StyledFormButton,
-} from './ContactForm.styled';
+  FormStyled,
+  InputStyled,
+  LabelStyled,
+} from 'components/Forms/Formik.styled';
+import { ButtonStyled } from 'components/Button/Button.styled';
 
 export default function ContactForm() {
   const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
 
   const dispatch = useDispatch();
 
@@ -75,15 +77,15 @@ export default function ContactForm() {
       return;
     }
 
-    dispatch(saveContact(newContact));
+    dispatch(saveContactRequest(newContact));
   };
 
   return (
-    <div>
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledLabel className="label">
+    <div className="form-container">
+      <FormStyled onSubmit={handleSubmit}>
+        <LabelStyled className="label">
           Name
-          <StyledInput
+          <InputStyled
             className="input"
             type="text"
             name="name"
@@ -94,10 +96,10 @@ export default function ContactForm() {
             value={name}
             onChange={handleInputChange}
           />
-        </StyledLabel>
-        <StyledLabel className="label">
+        </LabelStyled>
+        <LabelStyled className="label">
           Number
-          <StyledInput
+          <InputStyled
             className="input"
             type="tel"
             name="number"
@@ -108,11 +110,12 @@ export default function ContactForm() {
             value={number}
             onChange={handleInputChange}
           />
-        </StyledLabel>
-        <StyledFormButton type="submit" className="button">
+        </LabelStyled>
+        <ButtonStyled type="submit" className="button">
+          {isLoading && <Loader isButtonLoader />}
           Add contact
-        </StyledFormButton>
-      </StyledForm>
+        </ButtonStyled>
+      </FormStyled>
 
       <Toaster />
     </div>

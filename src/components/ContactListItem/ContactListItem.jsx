@@ -2,20 +2,20 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 
-import { removeContact } from 'redux/contacts/operations';
+import { removeContactRequest } from 'redux/contacts/operations';
 
 import {
   StyledContact,
   StyledContactName,
   StyledContactNumber,
-  StyledDeleteButton,
 } from './ContactListItem.styled';
+import { ButtonCancelStyled } from 'components/Button/Button.styled';
 
 export const ContactListItem = ({ name, number, id }) => {
   const dispatch = useDispatch();
 
   const deleteExistingContact = contactId => {
-    dispatch(removeContact(contactId));
+    dispatch(removeContactRequest(contactId));
   };
 
   return (
@@ -29,13 +29,13 @@ export const ContactListItem = ({ name, number, id }) => {
             </a>
           </StyledContactNumber>
         </StyledContactName>
-        <StyledDeleteButton
+        <ButtonCancelStyled
           type="button"
           onClick={() => deleteExistingContact(id)}
         >
           Delete contact
           <AiOutlineUserDelete size={25} color={'var(--red-color)'} />
-        </StyledDeleteButton>
+        </ButtonCancelStyled>
       </StyledContact>
     </>
   );

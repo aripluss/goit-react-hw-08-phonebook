@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter } from 'redux/filter/selectors';
 import { setFilter } from 'redux/filter/filterSlice';
 
-import { StyledLabel, StyledInput } from '../ContactForm/ContactForm.styled';
+import { InputStyled, LabelStyled } from 'components/Forms/Formik.styled';
 
 export const Filter = () => {
   const filter = useSelector(selectFilter);
@@ -15,9 +15,9 @@ export const Filter = () => {
   };
 
   return (
-    <StyledLabel className="label">
+    <LabelStyled className="label">
       Find contacts by name:
-      <StyledInput
+      <InputStyled
         className="input"
         type="text"
         name="name"
@@ -25,6 +25,6 @@ export const Filter = () => {
         placeholder="Who are you looking for?"
         onChange={handleFilter}
       />
-    </StyledLabel>
+    </LabelStyled>
   );
 };

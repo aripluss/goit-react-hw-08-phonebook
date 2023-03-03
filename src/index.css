@@ -44,12 +44,6 @@ ol {
 a {
   text-decoration: none;
   color: inherit;
-  transition: color 0.3s ease;
-}
-
-a:hover,
-a:focus {
-  color: var(--accent-color);
 }
 
 button {
@@ -76,47 +70,4 @@ img {
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(var(--accent-color), var(--btn-hover-color));
   border-radius: 6px;
-}
-
-.container {
-  max-width: 320px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 768px;
-    padding: 40px 32px;
-  }
-}
-
-@media screen and (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-  }
-}
-
-.title {
-  color: var(--accent-color);
-  margin-bottom: 40px;
-}
-
-.main-container {
-  display: flex;
-  gap: 70px;
-  flex-direction: column;
-}
-
-@media screen and (min-width: 768px) {
-  .main-container {
-    flex-direction: row;
-  }
-}
-
-.sub-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
 }

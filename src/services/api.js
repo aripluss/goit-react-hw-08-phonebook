@@ -1,21 +1,75 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://63fbd53f6deb8bdb814b4308.mockapi.io';
+// const API_BASE_URL = process.env.REACT_APP_API_DOMAIN;
+const API_BASE_URL = 'https://connections-api.herokuapp.com';
 
-export const getContacts = async () => {
-  const { data } = await axios.get(`${API_BASE_URL}/contacts`);
-  return data;
+const $publicHost = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const $privateHost = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    // 'Authorization': token...,
+  },
+});
+
+const authInterceptor = config => {
+  config.headers['Authorization'] = localStorage.getItem('token');
+  return config;
 };
 
-export const addContact = async ({ name, number }) => {
-  const { data } = await axios.post(`${API_BASE_URL}/contacts`, {
-    name,
-    number,
-  });
-  return data;
+$privateHost.interceptors.request.use(authInterceptor);
+
+export const UserAPI = {
+  async register({ name, email, password }) {
+    const { data } = await $publicHost.post(`/users/signup`, {
+      name,
+      email,
+      password,
+    });
+    return data;
+  },
+
+  async login({ email, password }) {
+    const { data } = await $publicHost.post(`/users/login`, {
+      email,
+      password,
+    });
+    return data;
+  },
+
+  async userLogOut() {
+    const { data } = await $privateHost.post(`/users/logout`);
+    return data;
+  },
+
+  async getUserDetails() {
+    const { data } = await $privateHost.get(`/users/current`);
+    return data;
+  },
 };
 
-export const deleteContact = async contactId => {
-  const { data } = await axios.delete(`${API_BASE_URL}/contacts/${contactId}`);
-  return data;
+export const ContactsAPI = {
+  async getContacts() {
+    const { data } = await $privateHost.get(`/contacts`);
+    return data;
+  },
+
+  async addContact({ name, number }) {
+    const { data } = await $privateHost.post(`/contacts`, {
+      name,
+      number,
+    });
+    return data;
+  },
+
+  async deleteContact(contactId) {
+    const { data } = await $privateHost.delete(`/contacts/${contactId}`);
+    return data;
+  },
 };

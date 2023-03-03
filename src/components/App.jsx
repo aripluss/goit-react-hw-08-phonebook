@@ -1,60 +1,39 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast, Toaster } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { lazy, Suspense, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import {
-  selectContacts,
-  selectError,
-  selectIsLoading,
-} from 'redux/contacts/selectors';
-import { fetchContacts } from 'redux/contacts/operations';
-import ContactForm from './ContactForm/ContactForm';
-import { ContactList } from './ContactList/ContactList';
-import { Filter } from './Filter/Filter';
-import { Loader } from './Loader/Loader';
+import { getUserDetailsRequest } from 'redux/user/operations';
+import Layout from 'layout/Layout/Layout';
+import { Loader } from 'components/Loader/Loader';
 
-import { StyledDiv } from './ContactList/ContactList.styled';
+const HomePage = lazy(() => import('pages/HomePage/HomePage'));
+const SignInPage = lazy(() => import('pages/SignInPage/SignInPage'));
+const SignUpPage = lazy(() => import('pages/SignUpPage/SignUpPage'));
+const ContactsPage = lazy(() => import('pages/ContactsPage/ContactsPage'));
+const PageNotFound = lazy(() => import('pages/PageNotFound/PageNotFound'));
 
 export default function App() {
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    dispatch(getUserDetailsRequest());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (error) toast.error(error);
-  }, [dispatch, error]);
-
   return (
-    <>
-      {isLoading && <Loader />}
+    <Suspense fallback={<Loader isPreloader />}>
+      <Routes>
+        <Route path={'/'} element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path={'contacts'} element={<ContactsPage />} />
+          <Route path={'login'} element={<SignInPage />} />
+          <Route path={'register'} element={<SignUpPage />} />
 
-      <div className="container">
-        <h1 className="title">Phonebook</h1>
-
-        <div className="main-container">
-          <ContactForm />
-
-          {!contacts.length ? (
-            <StyledDiv>There are no contacts in your phone book.</StyledDiv>
-          ) : (
-            <div className="sub-container">
-              <h2>Contacts</h2>
-
-              <Filter />
-
-              <ContactList />
-            </div>
-          )}
-        </div>
-      </div>
-
-      <Toaster />
-    </>
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 }
