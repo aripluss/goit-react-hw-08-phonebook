@@ -90,9 +90,9 @@ export default function ContactForm() {
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            title="Name may contain only letters, apostrophe, dash and spaces"
             required
-            placeholder="Enter a contact name"
+            placeholder="Erin Gold"
             value={name}
             onChange={handleInputChange}
           />
@@ -106,12 +106,16 @@ export default function ContactForm() {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            placeholder="Enter a contact number"
+            placeholder="+380990000000"
             value={number}
             onChange={handleInputChange}
           />
         </LabelStyled>
-        <ButtonStyled type="submit" className="button">
+        <ButtonStyled
+          type="submit"
+          className="button"
+          style={{ width: '100%' }}
+        >
           {isLoading && <Loader isButtonLoader />}
           Add contact
         </ButtonStyled>

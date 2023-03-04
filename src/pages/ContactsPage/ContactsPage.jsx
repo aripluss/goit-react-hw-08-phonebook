@@ -33,7 +33,7 @@ function ContactsPage() {
   return (
     <>
       <ContainerStyled>
-        <h2 style={{ marginBottom: '40px' }}>Contacts</h2>
+        <h2 style={{ marginBottom: '40px', fontSize: '2em' }}>Contacts</h2>
         <div className="main-container">
           <ContactForm />
           {!contacts.length ? (

@@ -10,6 +10,7 @@ export const ButtonStyled = styled.button`
   min-height: 43px;
   padding: 2px 16px;
   font-size: 24px;
+  font-weight: 700;
   color: var(--btn-text-color);
   background: linear-gradient(
     90deg,
@@ -78,6 +79,7 @@ export const LinkAsButtonStyled = styled(Link)`
   min-height: 43px;
   padding: 2px 16px;
   font-size: 24px;
+  font-weight: 700;
   color: var(--btn-text-color);
   background: linear-gradient(
     90deg,
@@ -139,15 +141,17 @@ export const LinkAsButtonStyled = styled(Link)`
 
 export const ButtonCancelStyled = styled(ButtonStyled)`
   width: 138px;
+  min-width: 138px;
   height: auto;
   font-size: 16px;
+  font-weight: 700;
   background: none;
   border: none;
   color: var(--red-color);
   transition: color 0.3s ease-in-out;
 
   @media screen and (min-width: 768px) {
-    width: 160px;
+    min-width: 200px;
   }
 
   &:before {

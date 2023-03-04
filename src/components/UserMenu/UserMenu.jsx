@@ -16,10 +16,14 @@ export const UserMenu = () => {
   };
 
   return (
-    <UserMenuStyled>
-      <span>Hello, {user.name}!</span>
+    <UserMenuStyled className="user-menu">
+      <span
+        style={{ fontWeight: '700', fontSize: '20px', textAlign: 'center' }}
+      >
+        Hi, {user.name}!
+      </span>
       <ButtonCancelStyled type="button" onClick={handleLogOut}>
-        Logout
+        LOGOUT
       </ButtonCancelStyled>
     </UserMenuStyled>
   );

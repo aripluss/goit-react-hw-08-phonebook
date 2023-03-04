@@ -8,6 +8,7 @@ export const StyledContact = styled.li`
 `;
 
 export const StyledContactName = styled.p`
+  font-size: 16px;
   word-break: break-word;
 `;
 

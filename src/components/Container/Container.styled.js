@@ -17,16 +17,14 @@ export const ContainerStyled = styled.div`
   & .main-container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 70px 0;
+    gap: 40px 60px;
     grid-template-areas:
       'form-container'
       'sub-container';
 
     @media screen and (min-width: 768px) {
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 1.1fr 1.9fr;
       grid-template-rows: 1fr;
-      gap: 0 70px;
       grid-template-areas: 'form-container sub-container';
     }
   }
@@ -37,5 +35,8 @@ export const ContainerStyled = styled.div`
 
   .sub-container {
     grid-area: sub-container;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
   }
 `;

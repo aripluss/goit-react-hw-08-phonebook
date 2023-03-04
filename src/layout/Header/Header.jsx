@@ -24,8 +24,12 @@ export function Header() {
         <nav className="header-nav">
           {isLoggedIn ? (
             <>
-              <NavLinkStyled to={'/'}>HOME</NavLinkStyled>
-              <NavLinkStyled to={'contacts'}>CONTACTS</NavLinkStyled>
+              <NavLinkStyled to={'/'} className="home">
+                HOME
+              </NavLinkStyled>
+              <NavLinkStyled to={'contacts'} className="contacts">
+                CONTACTS
+              </NavLinkStyled>
               <UserMenu />
             </>
           ) : (

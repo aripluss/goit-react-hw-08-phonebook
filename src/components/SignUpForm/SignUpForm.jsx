@@ -75,15 +75,30 @@ export const SignUpForm = ({ onSubmit = () => {}, isSignInForm = false }) => {
           {isSignInForm ? null : (
             <>
               <LabelStyled htmlFor="name">Name:</LabelStyled>
-              <InputFormikStyled id="name" type="name" name="name" />
+              <InputFormikStyled
+                id="name"
+                type="name"
+                name="name"
+                placeholder="Iryna"
+              />
               <ErrorMessageStyled name="name" component="div" />
             </>
           )}
           <LabelStyled htmlFor="email">Email:</LabelStyled>
-          <InputFormikStyled id="email" type="email" name="email" />
+          <InputFormikStyled
+            id="email"
+            type="email"
+            name="email"
+            placeholder="example@gmail.com"
+          />
           <ErrorMessageStyled name="email" component="div" />
           <LabelStyled htmlFor="password">Password:</LabelStyled>
-          <InputFormikStyled id="password" type="password" name="password" />
+          <InputFormikStyled
+            id="password"
+            type="password"
+            name="password"
+            placeholder="***************"
+          />
           <ErrorMessageStyled name="password" component="div" />
           <ButtonStyled type="submit" disabled={status === 'pending'}>
             {status === 'pending' && <Loader isButtonLoader />}

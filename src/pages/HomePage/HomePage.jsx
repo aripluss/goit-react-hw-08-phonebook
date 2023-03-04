@@ -10,7 +10,7 @@ export default function HomePage() {
 
   return (
     <ContainerStyled
-      style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}
     >
       <h1>Hello, it's your contact book!</h1>
       <p>

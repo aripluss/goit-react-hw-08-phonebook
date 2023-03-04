@@ -11,4 +11,5 @@ export const StyledDiv = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   text-align: center;
+  word-break: break-word;
 `;

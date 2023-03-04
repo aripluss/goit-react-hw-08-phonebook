@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const FormStyled = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 30px;
   min-width: 30%;
 `;
 
@@ -15,12 +15,13 @@ export const LabelStyled = styled.label`
 `;
 
 export const InputStyled = styled.input`
+  min-height: 35px;
   width: 100%;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   transition: border-bottom 0.3s ease-in-out;
-  font-size: 16px;
+  font-size: inherit;
 
   &:focus {
     outline: none;
@@ -35,17 +36,18 @@ export const InputStyled = styled.input`
 export const FormFormikStyled = styled(Form)`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 30px;
   min-width: 30%;
 `;
 
 export const InputFormikStyled = styled(Field)`
+  min-height: 35px;
   width: 100%;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   transition: border-bottom 0.3s ease-in-out;
-  font-size: 16px;
+  font-size: inherit;
 
   &:focus {
     outline: none;
